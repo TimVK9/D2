@@ -1,0 +1,9 @@
+{% extends 'default.html' %}
+
+ {% load custom_filters %}
+
+{% block title%}
+<h1>{{ post.title}}</h1>
+<p>Дата создания - {{post.dateCreation}}</p>
+<p>{{post.text|censor}}</p>
+{% endblock%}

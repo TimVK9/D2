@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Sum
+from django.shortcuts import reverse
 
 
 class Author(models.Model):
@@ -50,7 +51,10 @@ class Post(models.Model):
         self.save()
 
     def preview(self):
-        return f'{self.text[0:124]}...'
+        return f'{self.text[0:20]}...'
+
+    def get_absolute_url(self):
+        return reverse('post', kwargs={'pk': self.pk})
 
 
 class PostCategory(models.Model):

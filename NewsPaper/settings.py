@@ -1,5 +1,4 @@
-
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,6 +28,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'news',
 
+
+    'django.contrib.sites',
+    'django.contrib.flatpages',
+
+
 ]
 SITE_ID = 1
 
@@ -47,7 +51,7 @@ ROOT_URLCONF = 'NewsPaper.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'news/templates/news'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
