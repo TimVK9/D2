@@ -5,11 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Модуль D2</title>
+        <title>Модуль D4</title>
 
 
         {% load static %}
         {% load custom_filters %}
+        {% load custom_tags %}
 
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
@@ -19,46 +20,98 @@
         <!-- Responsive navbar-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
    <div class="container">
-       <a class="navbar-brand" href="">Новостной портал D2</a>
+       <a class="navbar-brand" href="/">Новостной портал D4</a>
+
        <button class="navbar-toggler" type="button" data-toggle="collapse"
+
                data-target="#navbarResponsive"
                aria-controls="navbarResponsive" aria-expanded="false"
                aria-label="Toggle navigation">
+
            <span class="navbar-toggler-icon"></span>
+
        </button>
+
        <div class="collapse navbar-collapse" id="navbarResponsive">
            <ul class="navbar-nav ml-auto">
                <li class="nav-item active">
-                   <a class="nav-link" href=""> Список новостей</a>
+                   <a class="nav-link" href="/"> Список новостей</a>
                </li>
+                              <li class="nav-item active">
+                   <a class="nav-link" href="/news/create/"> Создать Новость</a>
+               </li>
+
+               <li class="nav-item active">
+                   <a class="nav-link" href="/article/create/"> Создать Запись</a>
+               </li>
+
+               <li class="nav-item active">
+                   <a class="nav-link" href="/news/search"> Поиск</a>
+               </li>
+
            </ul>
        </div>
    </div>
 </nav>
         <!-- Page content-->
+
         <div class="container">
+
             <div class="row">
+
                 <div class="col-lg-12 text-center">
 
-<h4 style="color:red"> Всего новостей - {{ posts|length }} </h4>
+{% block content %}
 
 {% for post in posts %}
+<hr>
 
- <h1>{{post.title}}</h1>
-<p>Дата создания - {{post.dateCreation}}</p>
+<h1>{{post.title}}</h1>
+
+<p>Дата создания - {{post.dateCreation}} Автор - {{post.author}}  {{ post.categoryType}}</p>
+
 <p>{{post.text|truncatewords:20|censor}}</p>
+
 <a href="{{post.get_absolute_url}}">Читать полностью</a>
+<hr>
 
 {% endfor %}
 
-{% block title%}{% endblock%}
+<br>
+{% if page_obj.has_previous %}
 
+       <a href="?{% url_replace page=1 %}">1</a>
+
+ {% if page_obj.previous_page_number != 1 %}
+...
+         <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+
+{% endif %}
+{% endif %}
+
+
+{{ page_obj.number }}
+
+{% if page_obj.has_next %}
+
+      <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+
+{% if paginator.num_pages != page_obj.next_page_number %}
+...
+      <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+
+
+{% endif %}
+{% endif %}
+
+
+{% endblock %}
+<br>
 
 
                 </div>
             </div>
         </div>
-
     </body>
 </html>
 

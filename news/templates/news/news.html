@@ -1,9 +1,18 @@
 {% extends 'default.html' %}
+{% load custom_filters %}
 
- {% load custom_filters %}
 
-{% block title%}
-<h1>{{ post.title}}</h1>
+
+{% block content%}
+
+<h1>{{ post.title|censor}}</h1>
+
 <p>Дата создания - {{post.dateCreation}}</p>
+
 <p>{{post.text|censor}}</p>
+
+
+<a href="/">На главную</a>
+<a href="{{ post.pk }}/delete/">Удалить запись</a>
+
 {% endblock%}

@@ -8,6 +8,9 @@ class Author(models.Model):
     autorUser = models.OneToOneField(User, on_delete=models.CASCADE)
     ratingAutor = models.SmallIntegerField(default=0)
 
+    def __str__(self):
+        return f'{self.autorUser}'
+
     def update_rating(self):
         post_rat = self.post_set.aggregate(postRating=Sum('rating'))
         p_rat = 0
@@ -24,13 +27,18 @@ class Author(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True)
 
+    def __str__(self):
+        return f'{self.name}'
+
 
 class Post(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
 
     NEWS = 'NW'
     ARTICLE = 'AR'
+
     CATEGORY_CHOICES = (
+
         (NEWS, 'Новость'),
         (ARTICLE, 'Статья'),
     )
@@ -55,6 +63,9 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('post', kwargs={'pk': self.pk})
+
+    def __str__(self):
+        return f'{self.author}'
 
 
 class PostCategory(models.Model):
