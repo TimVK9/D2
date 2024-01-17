@@ -13,6 +13,9 @@
 
 
 <a href="/">На главную</a>
+
+{% if perms.news.add_post %}
 <a href="{{ post.pk }}/delete/">Удалить запись</a>
+{% endif%}
 
 {% endblock%}

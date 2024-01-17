@@ -16,13 +16,6 @@ class Author(models.Model):
         p_rat = 0
         p_rat += post_rat.get('postRating')
 
-        comment_rat = self.autorUser.comment_set.aggregate(commentRating=Sum('rating'))
-        c_rat = 0
-        c_rat += comment_rat.get('commentRating')
-
-        self.ratingAutor = p_rat * 3 + c_rat
-        self.save()
-
 
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True)

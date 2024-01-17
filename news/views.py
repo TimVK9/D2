@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.core.exceptions import ValidationError
 from django.urls import reverse_lazy
-
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from .forms import PostForm
 from .models import Post
 from django.views.generic import (ListView, DetailView,
@@ -41,7 +41,8 @@ class DetailPost(DetailView):
     template_name = 'news/news.html'
 
 
-class PostCreate(CreateView):
+class PostCreate(PermissionRequiredMixin, CreateView):
+    permission_required = ('news.add_post',)
     form_class = PostForm
     model = Post
     template_name = 'news/postcreate.html'
@@ -53,7 +54,8 @@ class PostCreate(CreateView):
         return super().form_valid(form)
 
 
-class ArticleCreate(CreateView):
+class ArticleCreate(PermissionRequiredMixin, CreateView):
+    permission_required = ('news.add_article',)
     form_class = PostForm
     model = Post
     template_name = 'news/articlecreate.html'
@@ -65,14 +67,16 @@ class ArticleCreate(CreateView):
         return super().form_valid(form)
 
 
-class PostUpdate(UpdateView):
+class PostUpdate(PermissionRequiredMixin, UpdateView):
+    permission_required = ('news.change_post',)
     form_class = PostForm
     model = Post
     template_name = 'news/postcreate.html'
     success_url = '/news/search'
 
 
-class PostDelete(DeleteView):
+class PostDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = ('simpleapp.delete_article',)
     model = Post
     template_name = 'news/delete.html'
     success_url = '/news/search'

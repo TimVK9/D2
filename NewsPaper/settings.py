@@ -26,17 +26,32 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'django.contrib.sites',
 
     'news',
+    'accounts',
 
-    'django.contrib.sites',
+
     'django.contrib.flatpages',
+
     'django_filters',
 
 
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    'allauth.socialaccount.providers.yandex',
 ]
+
 SITE_ID = 1
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_FORMS = {"signup": "accounts.forms.SignUpForm"}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -46,6 +61,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'NewsPaper.urls'
@@ -61,10 +78,19 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+
+                'django.template.context_processors.request',
             ],
         },
     },
 ]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
 
 WSGI_APPLICATION = 'NewsPaper.wsgi.application'
 
@@ -120,3 +146,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+LOGIN_REDIRECT_URL = '/'
