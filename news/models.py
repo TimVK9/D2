@@ -58,7 +58,7 @@ class Post(models.Model):
         return reverse('post', kwargs={'pk': self.pk})
 
     def __str__(self):
-        return f'{self.author}'
+        return f'{self.title}'
 
 
 class PostCategory(models.Model):
@@ -80,3 +80,16 @@ class Comment(models.Model):
     def dislike(self):
         self.rating -= 1
         self.save()
+
+
+class Subscription(models.Model):
+    user = models.ForeignKey(
+        to=User,
+        on_delete=models.CASCADE,
+        related_name='subscriptions',
+    )
+    category = models.ForeignKey(
+        to='Category',
+        on_delete=models.CASCADE,
+        related_name='subscriptions',
+    )
