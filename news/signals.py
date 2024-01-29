@@ -1,19 +1,15 @@
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, m2m_changed
 from django.dispatch import receiver
 
-from .models import Post
+from .models import Post, PostCategory
 
 
-@receiver(post_save, sender=Post)
-def post_created(instance, created, **kwargs):
-    if not created:
-        return
+@receiver(m2m_changed, sender=PostCategory)
+def post_created(instance, **kwargs):
 
-    emails = User.objects.filter(
-        subscriptions__category=instance.postCategory
-    ).values_list('email', flat=True)
+    emails = User.objects.filter(subscriptions__category__in=instance.postCategory.all()).values_list('email', flat=True)
 
     subject = f'Новый пост в категории {instance.postCategory}'
 

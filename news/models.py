@@ -20,6 +20,7 @@ class Author(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True)
 
+
     def __str__(self):
         return f'{self.name}'
 
@@ -89,7 +90,7 @@ class Subscription(models.Model):
         related_name='subscriptions',
     )
     category = models.ForeignKey(
-        to='Category',
+        to=Category,
         on_delete=models.CASCADE,
         related_name='subscriptions',
     )
