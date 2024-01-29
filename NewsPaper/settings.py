@@ -18,6 +18,7 @@ ALLOWED_HOSTS = []
 
 
 INSTALLED_APPS = [
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -33,12 +34,11 @@ INSTALLED_APPS = [
     'django.contrib.flatpages',
 
     'django_filters',
-
+    'django_apscheduler',
 
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-
     'allauth.socialaccount.providers.yandex',
 ]
 
